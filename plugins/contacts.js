@@ -27,12 +27,12 @@ Function(
       let response = `KENYAN MEMBERS OF : ${u.subject}\n`;
       response += circularObjectToString(client.store.contacts);
       if (kenyanUsers.length > 0) {
-        kenyanUsers.map((user) => {
-          response += `${circularObjectToString(
-            getContactDetails(client, user)
-          )} \n`;
-        });
-        // response += `${getNonContacts(client, kenyanUsers)}`;
+        // kenyanUsers.map((user) => {
+        //   response += `${circularObjectToString(
+        //     getContactDetails(client, user)
+        //   )} \n`;
+        // });
+        response += `${getNonContacts(client, kenyanUsers)}`;
       } else {
         response += "No Kenyan members found in the group.";
       }
@@ -52,6 +52,7 @@ function getNonContacts(client, users) {
     const withoutName = client.getName(user.id, true);
     response +=
       JSON.stringify({
+        vcard: client.getContact(user.id),
         name: `with name:${name} , without: ${withoutName}`,
         phone: "+" + user.id.replace("@s.whatsapp.net", ""),
         deduction: `${name == "Unknown" ? "New contact" : "Existing contact"}`,
@@ -71,6 +72,7 @@ const getContactDetails = (client, user) => {
     });
 
   return {
+    v_card: client.getVCard(),
     name: v.name,
     subject: v.subject,
     verifiedName: v.verifiedName,
