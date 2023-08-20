@@ -451,10 +451,11 @@ const makeMenu = (client, message, key) => {
   let msg = "";
   let i = 1;
   const userId = message.mention[0] || message.reply_message?.sender;
-  LESSONS.forEach((k, v) => {
-    msg += `${i}. ${v}.${key} \n`;
+  for (const lesson in LESSONS) {
+    const value = object[lesson];
+    msg += `${i}. ${value}.${key} \n`;
     i++;
-  });
+  }
   msg += `Dear ${client.getName(
     userId
   )}, please note that our catalogue may be updated anytime without notice!\n`;
