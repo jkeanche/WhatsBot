@@ -1,3 +1,4 @@
+const { check } = require("yargs");
 const { Function, isPublic } = require("../lib/");
 //const events = require("../lib/events");
 const socket = require("../lib/sock");
@@ -48,9 +49,10 @@ function getNonContacts(client, users) {
   let response = "";
 
   users.map(async (user) => {
-    const name = client.getName(user.id, false);
+    const n = client.getName(user.id);
     const withoutName = client.getName(user.id, true);
     const checkName = client.getName(user.id, true, true);
+
     const isNew =
       checkName == null ||
       checkName.name == null ||
@@ -58,8 +60,8 @@ function getNonContacts(client, users) {
       checkName.name == "";
     response +=
       JSON.stringify({
-        vcard: checkName,
-        name: `with name:${name} , without: ${withoutName}`,
+        vcard: `${JSON.stringify(checkName)}`,
+        name: `with:${n} , without: ${withoutName}`,
         phone: "+" + user.id.replace("@s.whatsapp.net", ""),
         deduction: `${isNew ? "New contact" : "Existing contact"}`,
       }) + `\n`;
