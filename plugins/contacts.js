@@ -61,24 +61,24 @@ function getNonContacts(client, users) {
   return response;
 }
 
-const getContactDetails = (client, user) => {
-  id = user.id;
-  let v = {};
+// const getContactDetails = (client, user) => {
+//   id = user.id;
+//   let v = {};
 
-  if (id.endsWith("@s.whatsapp.net"))
-    return new Promise(async (resolve) => {
-      v = client.store.contacts[id];
-      resolve(v.name || v.subject || v.verifiedName);
-    });
+//   if (id.endsWith("@s.whatsapp.net"))
+//     return new Promise(async (resolve) => {
+//       v = client.store.contacts[id];
+//       resolve(v.name || v.subject || v.verifiedName);
+//     });
 
-  return {
-    v_card: client.getVCard(),
-    name: v.name,
-    subject: v.subject,
-    verifiedName: v.verifiedName,
-    phone: "+" + id.replace("@s.whatsapp.net", ""),
-  };
-};
+//   return {
+//     v_card: client.getVCard(),
+//     name: v.name,
+//     subject: v.subject,
+//     verifiedName: v.verifiedName,
+//     phone: "+" + id.replace("@s.whatsapp.net", ""),
+//   };
+// };
 
 function circularObjectToString(obj) {
   let cache = [];

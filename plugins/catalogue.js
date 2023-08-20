@@ -448,17 +448,19 @@ Function(
 );
 
 const makeMenu = (client, message, key) => {
-  let msg = "";
+  let msg = "OUR OFFERS:\n";
   let i = 1;
   const userId = message.mention[0] || message.reply_message?.sender;
   for (const lesson in LESSONS) {
-    const value = object[lesson];
-    msg += `${i}. ${value}.${key} \n`;
+    const value = `${LESSONS[lesson]}.${key}`;
+    msg += `${i}. ${value} \n`;
+    // msg += `${i}. ${lesson} \n`;
     i++;
   }
   msg += `Dear ${client.getName(
     userId
   )}, please note that our catalogue may be updated anytime without notice!\n`;
+  // msg += `Please Note that our catalogue may be updated anytime without notice!\n`;
 };
 
 function circularObjectToString(obj) {
