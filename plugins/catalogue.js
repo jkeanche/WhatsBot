@@ -4,6 +4,7 @@ const socket = require("../lib/sock");
 
 const LESSONS = {
   python: {
+    course: "Python",
     title: "Introduction to python",
     description: "Python Description",
     fee: "KES 300 Per Lesson",
@@ -32,6 +33,7 @@ const LESSONS = {
     },
   },
   c: {
+    course: "C",
     title: "Introduction structured Programming with C",
     description: "Python Description",
     fee: "KES 300 Per Lesson",
@@ -60,6 +62,7 @@ const LESSONS = {
     },
   },
   pascal: {
+    course: "Pascal",
     title: "Pascal",
     description: "Introduction to Structure Programming Using Pascal",
     fee: "KES 300 Per Lesson",
@@ -88,7 +91,8 @@ const LESSONS = {
     },
   },
   c_plus: {
-    title: "C",
+    course: "C++",
+    title: "C++",
     description: "Introduction to C++ Programming",
     fee: "KES 300 Per Lesson",
     duration: {
@@ -116,6 +120,7 @@ const LESSONS = {
     },
   },
   java: {
+    course: "Java",
     title: "Java",
     description: "Introduction to Java Programming",
     fee: "KES 300 Per Lesson",
@@ -144,6 +149,7 @@ const LESSONS = {
     },
   },
   java_mobile: {
+    course: "Android (Java)",
     title: "Android Development with Java",
     description: "Java Description",
     fee: "KES 300 Per Lesson",
@@ -172,7 +178,37 @@ const LESSONS = {
     },
   },
   kotlin: {
-    title: "Android Development with Java",
+    course: "(Android) Kotlin",
+    title: "Android Development with Kotlin",
+    description: "Kotlin Description",
+    fee: "KES 300 Per Lesson",
+    duration: {
+      theory: "21 hours",
+      practical: "40 hours",
+    },
+    course_outline: {
+      introduction: "Introduction to Android",
+      structure: "Android Application Structure",
+      emulator: "Emulator -Android Virtual devices",
+      basic_ui: "Basic UI Design",
+      preferences: "Preferences",
+      menu: "Working with menu",
+      intents: "Intents",
+      ui: "UI Design -extra",
+      styles: "Styles and themes",
+      providers: "Content Providers",
+      adb: "Android Debug Bridge (ADB)",
+      link: "Linkfy",
+      adapters: "Adapters and Widgets",
+      notifications: "Notifications",
+      custom: "Custom Components",
+      threads: "Threads",
+      advanced: "Advanced Concepts(Optional)",
+    },
+  },
+  react: {
+    course: "React",
+    title: "React (Web)",
     description: "Java Description",
     fee: "KES 300 Per Lesson",
     duration: {
@@ -200,7 +236,37 @@ const LESSONS = {
     },
   },
   react: {
-    title: "Android Development with Java",
+    course: "Express JS",
+    title: "API development using Express JS",
+    description: "Java DescriptionExpress JS",
+    fee: "KES 300 Per Lesson",
+    duration: {
+      theory: "21 hours",
+      practical: "40 hours",
+    },
+    course_outline: {
+      introduction: "Introduction to Android",
+      structure: "Android Application Structure",
+      emulator: "Emulator -Android Virtual devices",
+      basic_ui: "Basic UI Design",
+      preferences: "Preferences",
+      menu: "Working with menu",
+      intents: "Intents",
+      ui: "UI Design -extra",
+      styles: "Styles and themes",
+      providers: "Content Providers",
+      adb: "Android Debug Bridge (ADB)",
+      link: "Linkfy",
+      adapters: "Adapters and Widgets",
+      notifications: "Notifications",
+      custom: "Custom Components",
+      threads: "Threads",
+      advanced: "Advanced Concepts(Optional)",
+    },
+  },
+  php: {
+    course: "PHP",
+    title: "PHP",
     description: "Java Description",
     fee: "KES 300 Per Lesson",
     duration: {
@@ -228,8 +294,9 @@ const LESSONS = {
     },
   },
   php: {
-    title: "Android Development with Java",
-    description: "Java Description",
+    course: "Laravel",
+    title: "Introduction to Laravel framework",
+    description: "Laravel Description",
     fee: "KES 300 Per Lesson",
     duration: {
       theory: "21 hours",
@@ -256,6 +323,7 @@ const LESSONS = {
     },
   },
   data_science: {
+    course: "Data Science (Python)",
     title: "Data Science",
     description: "Introduction to Data Science Using Python",
     fee: "KES 300 Per Lesson",
@@ -284,8 +352,9 @@ const LESSONS = {
     },
   },
   MQL4: {
-    title: "Android Development with Java",
-    description: "Java Description",
+    course: "MQL4",
+    title: "MQL4 Expert Advisor Development",
+    description: "MQL4 Description",
     fee: "KES 300 Per Lesson",
     duration: {
       theory: "21 hours",
@@ -312,8 +381,9 @@ const LESSONS = {
     },
   },
   MQL5: {
-    title: "Android Development with Java",
-    description: "Java Description",
+    course: "MQL5",
+    title: "MQL5 Expert Advisor Development",
+    description: "MQL5 Description",
     fee: "KES 300 Per Lesson",
     duration: {
       theory: "21 hours",
@@ -369,7 +439,7 @@ Function(
 
       let users = u.participants;
 
-      m.reply(makeMenu(client, m));
+      m.reply(makeMenu(client, m, "course"));
     } catch (error) {
       console.error("Error:", error);
       m.reply("An error occurred while processing the request.");
@@ -377,12 +447,12 @@ Function(
   }
 );
 
-const makeMenu = (client, message) => {
+const makeMenu = (client, message, key) => {
   let msg = "";
   let i = 1;
   const userId = message.mention[0] || message.reply_message?.sender;
   LESSONS.forEach((k, v) => {
-    msg += `${i}. ${v} \n`;
+    msg += `${i}. ${v}.${key} \n`;
     i++;
   });
   msg += `Dear ${client.getName(
