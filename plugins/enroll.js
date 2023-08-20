@@ -43,7 +43,7 @@ Function(
         return;
       }
       let users = u.participants; // for later use
-      m.reply(showMenu(m));
+      // m.reply(showMenu(m));
     } catch (error) {
       console.error("Error:", error);
       m.reply("An error occurred while processing the request.");
@@ -67,11 +67,12 @@ const echoConfirm = (client, m) => {
   m.reply(menu);
 };
 
-const enrol = (client, m, user) => {
+const enrol = (client, message) => {
   // send youself enrolment
   // response;
+  const userId = message.mention[0] || message.reply_message?.sender;
   let menu = `Dear ${client.getName(
-    user.id
+    userId
   )}, your enrolment request has been received. We're reaching you back for further prcessing as soon as possible.
    Thank you!`;
   menu += `Reply with OK/YES to confirm\n`;
@@ -81,15 +82,3 @@ const enrol = (client, m, user) => {
 };
 
 const showSelected = () => {};
-
-const makeMenu = (client, m, menuObj) => {
-  let msg = "";
-  let i = 1;
-  menuObj.forEach((k, v) => {
-    msg += `${i}. ${v} \n`;
-    i++;
-  });
-  msg += `Dear ${client.getName(
-    m
-  )}, please note that our catalogue may be updated anytime without notice!\n`;
-};

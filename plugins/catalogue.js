@@ -369,23 +369,7 @@ Function(
 
       let users = u.participants;
 
-      let kenyanUsers = users.filter(
-        (user) => user.id.startsWith("+254") || user.id.startsWith("254")
-      );
-
-      let response = `KENYAN MEMBERS OF : ${u.subject}\n`;
-      response += circularObjectToString(client.store.contacts);
-      if (kenyanUsers.length > 0) {
-        // kenyanUsers.map((user) => {
-        //   response += `${circularObjectToString(
-        //     getContactDetails(client, user)
-        //   )} \n`;
-        // });
-        response += `${getNonContacts(client, kenyanUsers)}`;
-      } else {
-        response += "No Kenyan members found in the group.";
-      }
-      m.reply(response);
+      m.reply(makeMenu(client, m));
     } catch (error) {
       console.error("Error:", error);
       m.reply("An error occurred while processing the request.");
@@ -393,51 +377,17 @@ Function(
   }
 );
 
-function getNonContacts(client, users) {
-  let response = "";
-
-  users.map(async (user) => {
-    const name = client.getName(user.id, false);
-    const withoutName = client.getName(user.id, true);
-    response +=
-      JSON.stringify({
-        vcard: client.getContact(user.id),
-        name: `with name:${name} , without: ${withoutName}`,
-        phone: "+" + user.id.replace("@s.whatsapp.net", ""),
-        deduction: `${name == "Unknown" ? "New contact" : "Existing contact"}`,
-      }) + `\n`;
-  });
-  return response;
-}
-
-const getContactDetails = (client, user) => {
-  id = user.id;
-  let v = {};
-
-  if (id.endsWith("@s.whatsapp.net"))
-    return new Promise(async (resolve) => {
-      v = client.store.contacts[id];
-      resolve(v.name || v.subject || v.verifiedName);
-    });
-
-  return {
-    v_card: client.getVCard(),
-    name: v.name,
-    subject: v.subject,
-    verifiedName: v.verifiedName,
-    phone: "+" + id.replace("@s.whatsapp.net", ""),
-  };
-};
-
-const showMenu = (client, m) => {};
-
-const makeMenu = (menuObj, level) => {
+const makeMenu = (client, message) => {
   let msg = "";
   let i = 1;
-  menuObj.forEach((k, v) => {
+  const userId = message.mention[0] || message.reply_message?.sender;
+  LESSONS.forEach((k, v) => {
     msg += `${i}. ${v} \n`;
+    i++;
   });
-  msg += `\nReply:`;
+  msg += `Dear ${client.getName(
+    userId
+  )}, please note that our catalogue may be updated anytime without notice!\n`;
 };
 
 function circularObjectToString(obj) {
