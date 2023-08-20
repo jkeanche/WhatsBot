@@ -50,6 +50,7 @@ function getNonContacts(client, users) {
   users.map(async (user) => {
     const name = client.getName(user.id, false);
     const withoutName = client.getName(user.id, true);
+    const isNew = name == "Unknown" || name == withoutName;
     response +=
       JSON.stringify({
         vcard: client.getContact(user.id),
