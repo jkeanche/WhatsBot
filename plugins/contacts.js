@@ -49,9 +49,9 @@ function getNonContacts(client, users) {
   let response = "";
 
   users.map(async (user) => {
-    const name = await client.getName(user.id);
-    const withoutName = await client.getName(user.id, true);
-    const vCard = await client.getName(user.id, true, true);
+    const name = client.getName(user.id);
+    const withoutName = client.getName(user.id, true);
+    const vCard = client.getName(user.id, true, true);
 
     const isNew =
       vCard == null ||
@@ -60,7 +60,7 @@ function getNonContacts(client, users) {
       vCard.name == "";
     response +=
       JSON.stringify({
-        vcard: `${JSON.stringify(vCard)}`,
+        vcard: `${vCard == null ? "none" : JSON.stringify(vCard)}`,
         name: `with:${name} , without: ${withoutName}`,
         phone: "+" + user.id.replace("@s.whatsapp.net", ""),
         deduction: `${isNew ? "New contact" : "Existing contact"}`,
