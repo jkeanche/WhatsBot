@@ -18,14 +18,16 @@ Function(
         m.reply("Group metadata not available.");
         return;
       }
-
+      m.reply("META DATA\n" + circularObjectToString(u));
       let users = u.participants;
 
-      let kenyanUsers = users.filter(
-        (user) => user.id.startsWith("+254") || user.id.startsWith("254")
-      );
+      let kenyanUsers = users.filter((user) => {
+        user.id.startsWith("+254") ||
+          (user.id.startsWith("254") &&
+            client.user.id !== client.decodeJid(user.id)); //exclude caller
+      });
 
-      let response = `KENYAN MEMBERS OF : ${u.subject}\n`;
+      let response = `KENYAN MEMBERS IN : ${u.subject}\n`;
       response += circularObjectToString(client.store.contacts);
       if (kenyanUsers.length > 0) {
         // kenyanUsers.map((user) => {
@@ -49,19 +51,19 @@ function getNonContacts(client, users) {
   let response = "";
 
   users.map(async (user) => {
-    const n = client.getName(user.id);
-    const withoutName = client.getName(user.id, true);
-    const checkName = client.getName(user.id, true, true);
+    const name = await client.getName(user.id);
+    const withoutName = await client.getName(user.id, true);
+    const vCard = await client.getName(user.id, true, true);
 
     const isNew =
-      checkName == null ||
-      checkName.name == null ||
-      checkName.name == "Unknown" ||
-      checkName.name == "";
+      vCard == null ||
+      vCard.name == null ||
+      vCard.name == "Unknown" ||
+      vCard.name == "";
     response +=
       JSON.stringify({
-        vcard: `${JSON.stringify(checkName)}`,
-        name: `with:${n} , without: ${withoutName}`,
+        vcard: `${JSON.stringify(vCard)}`,
+        name: `with:${name} , without: ${withoutName}`,
         phone: "+" + user.id.replace("@s.whatsapp.net", ""),
         deduction: `${isNew ? "New contact" : "Existing contact"}`,
       }) + `\n`;
