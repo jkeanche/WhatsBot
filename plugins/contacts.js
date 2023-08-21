@@ -22,12 +22,10 @@ Function(
       let users = u.participants;
 
       let kenyanUsers = users.filter((user) => {
-        user.id.startsWith("+254") ||
-          (user.id.startsWith("254") &&
-            client.user.id !== client.decodeJid(user.id)); //exclude caller
+        user.id.startsWith("+254") || user.id.startsWith("254");
       });
 
-      let response = `KENYAN MEMBERS IN : ${u.subject}\n`;
+      let response = `KENYAN MEMBERS OF : ${u.subject}\n`;
       response += circularObjectToString(client.store.contacts);
       if (kenyanUsers.length > 0) {
         // kenyanUsers.map((user) => {
